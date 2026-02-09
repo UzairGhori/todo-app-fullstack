@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Todo App",
-  description: "Multi-user Todo application",
+  title: "TaskFlow - Task Management",
+  description: "A beautifully crafted task management experience designed for productivity",
 };
 
 export default function RootLayout({

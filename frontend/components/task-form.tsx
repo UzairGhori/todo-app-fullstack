@@ -80,98 +80,125 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-lg border border-gray-200 bg-white p-4">
-      <h2 className="mb-3 text-lg font-semibold text-gray-900">
-        {isEditing ? "Edit Task" : "Create Task"}
-      </h2>
-
-      {error && (
-        <div className="mb-3 rounded-md bg-red-50 p-2 text-sm text-red-600">{error}</div>
-      )}
-
-      <div className="space-y-3">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-            Title *
-          </label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
-            maxLength={255}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">
-            Description
-          </label>
-          <textarea
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            maxLength={2000}
-            rows={3}
-            className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="flex gap-3">
-          <div className="flex-1">
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-              Status
-            </label>
-            <select
-              id="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="pending">Pending</option>
-              <option value="in_progress">In Progress</option>
-              <option value="completed">Completed</option>
-            </select>
+    <div className="card-premium animate-fade-in overflow-hidden">
+      {/* Header */}
+      <div className="border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${isEditing ? "bg-amber-100" : "bg-indigo-100"}`}>
+            {isEditing ? (
+              <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
+              </svg>
+            ) : (
+              <svg className="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+              </svg>
+            )}
           </div>
-
-          <div className="flex-1">
-            <label htmlFor="priority" className="block text-sm font-medium text-gray-700">
-              Priority
-            </label>
-            <select
-              id="priority"
-              value={priority}
-              onChange={(e) => setPriority(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-            </select>
-          </div>
+          <h2 className="text-lg font-bold text-gray-900">
+            {isEditing ? "Edit Task" : "Create New Task"}
+          </h2>
         </div>
       </div>
 
-      <div className="mt-4 flex gap-2">
-        <button
-          type="submit"
-          disabled={loading}
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
-          {loading ? "Saving..." : isEditing ? "Update Task" : "Create Task"}
-        </button>
-        {onCancel && (
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
-          >
-            Cancel
-          </button>
+      {/* Form Body */}
+      <form onSubmit={handleSubmit} className="p-6">
+        {error && (
+          <div className="mb-5 flex items-center gap-3 rounded-xl border border-red-100 bg-red-50 p-3">
+            <svg className="h-4 w-4 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+            </svg>
+            <p className="text-sm font-medium text-red-700">{error}</p>
+          </div>
         )}
-      </div>
-    </form>
+
+        <div className="space-y-5">
+          <div>
+            <label htmlFor="title" className="mb-2 block text-sm font-semibold text-gray-700">
+              Task Title <span className="text-red-400">*</span>
+            </label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+              maxLength={255}
+              placeholder="What needs to be done?"
+              className="input-premium"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="description" className="mb-2 block text-sm font-semibold text-gray-700">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              maxLength={2000}
+              rows={3}
+              placeholder="Add more details about this task..."
+              className="input-premium resize-none"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label htmlFor="status" className="mb-2 block text-sm font-semibold text-gray-700">
+                Status
+              </label>
+              <select
+                id="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="select-premium"
+              >
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="priority" className="mb-2 block text-sm font-semibold text-gray-700">
+                Priority
+              </label>
+              <select
+                id="priority"
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+                className="select-premium"
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 flex gap-3">
+          <button type="submit" disabled={loading} className="btn-primary text-sm">
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                {isEditing ? "Updating..." : "Creating..."}
+              </span>
+            ) : isEditing ? (
+              "Update Task"
+            ) : (
+              "Create Task"
+            )}
+          </button>
+          {onCancel && (
+            <button type="button" onClick={onCancel} className="btn-secondary text-sm">
+              Cancel
+            </button>
+          )}
+        </div>
+      </form>
+    </div>
   );
 }

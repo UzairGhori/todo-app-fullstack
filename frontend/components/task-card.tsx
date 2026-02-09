@@ -21,32 +21,23 @@ interface TaskCardProps {
   onToggle: () => void;
 }
 
-const STATUS_STYLES: Record<string, string> = {
-  pending: "bg-yellow-100 text-yellow-800",
-  in_progress: "bg-blue-100 text-blue-800",
-  completed: "bg-green-100 text-green-800",
+const STATUS_CONFIG: Record<string, { label: string; class: string; dot: string }> = {
+  pending: { label: "Pending", class: "badge-pending", dot: "bg-amber-400" },
+  in_progress: { label: "In Progress", class: "badge-in-progress", dot: "bg-blue-500" },
+  completed: { label: "Completed", class: "badge-completed", dot: "bg-emerald-500" },
 };
 
-const STATUS_LABELS: Record<string, string> = {
-  pending: "Pending",
-  in_progress: "In Progress",
-  completed: "Completed",
-};
-
-const PRIORITY_STYLES: Record<string, string> = {
-  low: "bg-gray-100 text-gray-700",
-  medium: "bg-orange-100 text-orange-700",
-  high: "bg-red-100 text-red-700",
-};
-
-const PRIORITY_LABELS: Record<string, string> = {
-  low: "Low",
-  medium: "Medium",
-  high: "High",
+const PRIORITY_CONFIG: Record<string, { label: string; class: string }> = {
+  low: { label: "Low", class: "badge-low" },
+  medium: { label: "Medium", class: "badge-medium" },
+  high: { label: "High", class: "badge-high" },
 };
 
 export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardProps) {
   const [toggling, setToggling] = useState(false);
+  const isCompleted = task.status === "completed";
+  const status = STATUS_CONFIG[task.status] || STATUS_CONFIG.pending;
+  const priority = PRIORITY_CONFIG[task.priority] || PRIORITY_CONFIG.medium;
 
   async function handleToggle() {
     setToggling(true);
@@ -54,76 +45,92 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
       const res = await fetchWithAuth(`/api/tasks/${task.id}/complete`, {
         method: "PATCH",
       });
-      if (res.ok) {
-        onToggle();
-      }
+      if (res.ok) onToggle();
     } catch {
-      // fetchWithAuth handles 401 redirect
+      // fetchWithAuth handles 401
     } finally {
       setToggling(false);
     }
   }
 
   return (
-    <div className={`rounded-lg border p-4 ${task.status === "completed" ? "border-green-200 bg-green-50" : "border-gray-200 bg-white"}`}>
-      <div className="flex items-start justify-between">
-        <div className="flex min-w-0 flex-1 items-start gap-3">
-          <button
-            onClick={handleToggle}
-            disabled={toggling}
-            className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 ${
-              task.status === "completed"
-                ? "border-green-500 bg-green-500 text-white"
-                : "border-gray-300 hover:border-blue-400"
-            }`}
-          >
-            {task.status === "completed" && (
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            )}
-          </button>
-          <div className="min-w-0">
-            <h3 className={`font-medium ${task.status === "completed" ? "text-gray-500 line-through" : "text-gray-900"}`}>
-              {task.title}
-            </h3>
-            {task.description && (
-              <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                {task.description}
-              </p>
-            )}
+    <div className={`card-premium animate-fade-in overflow-hidden p-5 ${isCompleted ? "opacity-75" : ""}`}>
+      <div className="flex items-start gap-4">
+        {/* Toggle Checkbox */}
+        <button
+          onClick={handleToggle}
+          disabled={toggling}
+          className={`group mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
+            isCompleted
+              ? "border-emerald-500 bg-emerald-500"
+              : "border-gray-300 hover:border-indigo-400 hover:bg-indigo-50"
+          }`}
+        >
+          {isCompleted ? (
+            <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          ) : (
+            <svg className="h-3 w-3 text-transparent group-hover:text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          )}
+        </button>
+
+        {/* Content */}
+        <div className="min-w-0 flex-1">
+          <div className="flex items-start justify-between gap-3">
+            <div className="min-w-0">
+              <h3 className={`text-base font-semibold ${isCompleted ? "text-gray-400 line-through" : "text-gray-900"}`}>
+                {task.title}
+              </h3>
+              {task.description && (
+                <p className={`mt-1 line-clamp-2 text-sm leading-relaxed ${isCompleted ? "text-gray-400" : "text-gray-500"}`}>
+                  {task.description}
+                </p>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex shrink-0 items-center gap-1">
+              <button
+                onClick={() => onEdit(task)}
+                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                title="Edit task"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                </svg>
+              </button>
+              <button
+                onClick={() => onDelete(task)}
+                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                title="Delete task"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          {/* Badges */}
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <span className={`badge ${status.class}`}>
+              <span className={`h-1.5 w-1.5 rounded-full ${status.dot}`} />
+              {status.label}
+            </span>
+            <span className={`badge ${priority.class}`}>
+              {priority.label}
+            </span>
+            <span className="text-xs text-gray-400">
+              {new Date(task.created_at).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
           </div>
         </div>
-        <div className="ml-4 flex gap-2">
-          <button
-            onClick={() => onEdit(task)}
-            className="rounded px-2 py-1 text-sm text-blue-600 hover:bg-blue-50"
-          >
-            Edit
-          </button>
-          <button
-            onClick={() => onDelete(task)}
-            className="rounded px-2 py-1 text-sm text-red-600 hover:bg-red-50"
-          >
-            Delete
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3 flex flex-wrap items-center gap-2 pl-8">
-        <span
-          className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[task.status] || ""}`}
-        >
-          {STATUS_LABELS[task.status] || task.status}
-        </span>
-        <span
-          className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${PRIORITY_STYLES[task.priority] || ""}`}
-        >
-          {PRIORITY_LABELS[task.priority] || task.priority}
-        </span>
-        <span className="text-xs text-gray-400">
-          {new Date(task.created_at).toLocaleDateString()}
-        </span>
       </div>
     </div>
   );
