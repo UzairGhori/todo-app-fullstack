@@ -1,18 +1,24 @@
 "use client";
 
+import { useState } from "react";
+import { fetchWithAuth } from "@/lib/api";
+
 interface TaskData {
   id: string;
   title: string;
   description: string | null;
   status: string;
   priority: string;
+  user_id: string;
   created_at: string;
+  updated_at: string;
 }
 
 interface TaskCardProps {
   task: TaskData;
   onEdit: (task: TaskData) => void;
   onDelete: (task: TaskData) => void;
+  onToggle: () => void;
 }
 
 const STATUS_STYLES: Record<string, string> = {
@@ -39,17 +45,54 @@ const PRIORITY_LABELS: Record<string, string> = {
   high: "High",
 };
 
-export default function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
+export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardProps) {
+  const [toggling, setToggling] = useState(false);
+
+  async function handleToggle() {
+    setToggling(true);
+    try {
+      const res = await fetchWithAuth(`/api/tasks/${task.id}/complete`, {
+        method: "PATCH",
+      });
+      if (res.ok) {
+        onToggle();
+      }
+    } catch {
+      // fetchWithAuth handles 401 redirect
+    } finally {
+      setToggling(false);
+    }
+  }
+
   return (
-    <div className="rounded-lg border border-gray-200 bg-white p-4">
+    <div className={`rounded-lg border p-4 ${task.status === "completed" ? "border-green-200 bg-green-50" : "border-gray-200 bg-white"}`}>
       <div className="flex items-start justify-between">
-        <div className="min-w-0 flex-1">
-          <h3 className="font-medium text-gray-900">{task.title}</h3>
-          {task.description && (
-            <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-              {task.description}
-            </p>
-          )}
+        <div className="flex min-w-0 flex-1 items-start gap-3">
+          <button
+            onClick={handleToggle}
+            disabled={toggling}
+            className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 ${
+              task.status === "completed"
+                ? "border-green-500 bg-green-500 text-white"
+                : "border-gray-300 hover:border-blue-400"
+            }`}
+          >
+            {task.status === "completed" && (
+              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </button>
+          <div className="min-w-0">
+            <h3 className={`font-medium ${task.status === "completed" ? "text-gray-500 line-through" : "text-gray-900"}`}>
+              {task.title}
+            </h3>
+            {task.description && (
+              <p className="mt-1 line-clamp-2 text-sm text-gray-600">
+                {task.description}
+              </p>
+            )}
+          </div>
         </div>
         <div className="ml-4 flex gap-2">
           <button
@@ -67,7 +110,7 @@ export default function TaskCard({ task, onEdit, onDelete }: TaskCardProps) {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap items-center gap-2">
+      <div className="mt-3 flex flex-wrap items-center gap-2 pl-8">
         <span
           className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_STYLES[task.status] || ""}`}
         >

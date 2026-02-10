@@ -83,6 +83,30 @@ def update_task(
     return task
 
 
+@router.patch("/{task_id}/complete", response_model=TaskRead)
+def toggle_task_completion(
+    task_id: str,
+    user_id: str = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    task = session.exec(
+        select(Task).where(Task.id == task_id, Task.user_id == user_id)
+    ).first()
+    if not task:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Task not found"
+        )
+    if task.status == "completed":
+        task.status = "pending"
+    else:
+        task.status = "completed"
+    task.updated_at = datetime.now(timezone.utc)
+    session.add(task)
+    session.commit()
+    session.refresh(task)
+    return task
+
+
 @router.delete("/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_task(
     task_id: str,

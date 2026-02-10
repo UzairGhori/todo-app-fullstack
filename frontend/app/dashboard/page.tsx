@@ -93,6 +93,7 @@ export default function DashboardPage() {
               task={task}
               onEdit={handleEdit}
               onDelete={handleDelete}
+              onToggle={fetchTasks}
             />
           ))
         )}
