@@ -31,3 +31,8 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Misc
+nul
+models.json
+_test_token.txt

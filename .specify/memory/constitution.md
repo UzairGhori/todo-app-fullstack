@@ -1,18 +1,14 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 0.0.0 → 1.0.0 (MAJOR — initial ratification)
-  Modified principles: N/A (first version)
-  Added sections:
-    - 10 Core Principles (I–X)
-    - Technology Stack Constraints
-    - Development Workflow & Quality Gates
-    - Governance
-  Removed sections: N/A
-  Templates requiring updates:
-    - .specify/templates/plan-template.md — ✅ compatible (Constitution Check section present)
-    - .specify/templates/spec-template.md — ✅ compatible (user stories + acceptance criteria align)
-    - .specify/templates/tasks-template.md — ✅ compatible (phase structure matches workflow)
+  Version change: 1.0.0 → 1.1.0 (MINOR — auth architecture alignment)
+  Modified principles:
+    - II. Security-First Architecture — updated secret reference (BETTER_AUTH_SECRET → SECRET_KEY)
+    - IV. Stateless Authentication — replaced Better Auth with custom JWT auth via backend
+  Modified sections:
+    - Technology Stack Constraints — Frontend Auth updated from Better Auth to Custom JWT (backend-issued)
+    - Prohibited list — removed localStorage prohibition (token stored in localStorage by design)
+  Templates requiring updates: None (no template-breaking changes)
   Follow-up TODOs: None
 -->
 
@@ -36,7 +32,7 @@ Security is not a feature; it is a constraint that governs every decision.
 - All API endpoints MUST require JWT authentication (except health checks).
 - User data isolation MUST be enforced at the query level — every SELECT, UPDATE, and DELETE includes `WHERE user_id = <authenticated_user_id>`.
 - Return 404 (not 403) for resources belonging to other users to prevent existence leakage.
-- Shared secrets (BETTER_AUTH_SECRET / JWT_SECRET) MUST match across services and MUST never be committed to version control.
+- The JWT signing secret (`SECRET_KEY`) MUST be consistent across services and MUST never be committed to version control.
 - Input validation MUST use Pydantic models with explicit type, length, and format constraints.
 - CORS MUST use explicit origin allowlists — never `*` with credentials.
 - OWASP Top 10 mitigations MUST be applied: parameterized queries, token validation, no secrets in responses, strict access control.
@@ -54,11 +50,13 @@ Code MUST be organized by responsibility with clear boundaries between layers.
 ### IV. Stateless Authentication
 
 Authentication between services MUST be stateless using JWT tokens.
-- Better Auth on the Next.js frontend issues JWTs on successful login.
-- FastAPI backend verifies JWTs using a shared secret — no database session lookups.
-- The `get_current_user` dependency extracts `user_id` from the token and injects it into every protected route.
-- Token expiry MUST be validated on every request. Clock skew tolerance: 30 seconds.
+- FastAPI backend issues JWTs on successful login via `/api/auth/token`.
+- FastAPI backend verifies JWTs using `SECRET_KEY` (HS256) — no database session lookups.
+- The `get_current_user` dependency extracts `user_id` from the token `sub` claim and injects it into every protected route.
+- Token expiry MUST be validated on every request (default: 30 minutes). Clock skew tolerance: 30 seconds.
 - Algorithm MUST be explicitly specified (HS256) — never allow `none` algorithm.
+- Frontend stores JWT in localStorage and attaches it as `Authorization: Bearer <token>` on every API request.
+- On 401 response, frontend clears stored token and redirects to sign-in.
 
 ### V. Production-Ready Architecture
 
@@ -119,7 +117,7 @@ The following stack is mandated. Deviations require an ADR with explicit justifi
 | Layer | Technology | Version/Notes |
 |-------|-----------|---------------|
 | Frontend Framework | Next.js (App Router) | TypeScript, Server Components default |
-| Frontend Auth | Better Auth | JWT session strategy |
+| Frontend Auth | Custom JWT (backend-issued) | HS256, localStorage + Bearer header |
 | Frontend Styling | Tailwind CSS | Mobile-first, utility classes only |
 | Backend Framework | FastAPI | Python, async handlers |
 | Backend ORM | SQLModel | Pydantic + SQLAlchemy combined |
@@ -132,7 +130,7 @@ The following stack is mandated. Deviations require an ADR with explicit justifi
 - No CSS-in-JS or styled-components — Tailwind only.
 - No session-based authentication — JWT only.
 - No GraphQL — REST only.
-- No localStorage for token storage.
+- No third-party auth libraries (Better Auth, NextAuth, etc.) — custom JWT via backend only.
 
 ## Development Workflow & Quality Gates
 
@@ -171,4 +169,4 @@ The following stack is mandated. Deviations require an ADR with explicit justifi
 - Complexity beyond the minimum MUST be justified with a written rationale.
 - Architectural decisions meeting the significance threshold MUST be documented via ADR.
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-06 | **Last Amended**: 2026-02-06
+**Version**: 1.1.0 | **Ratified**: 2026-02-06 | **Last Amended**: 2026-02-12

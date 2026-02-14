@@ -15,6 +15,7 @@ FastAPI backend for the TaskFlow task management application.
 
 - `POST /api/auth/register` - Create account
 - `POST /api/auth/token` - Login
+- `POST /api/chat` - AI chatbot (auth required)
 - `GET /api/tasks` - List tasks (auth required)
 - `POST /api/tasks` - Create task (auth required)
 - `PATCH /api/tasks/{id}` - Update task (auth required)
