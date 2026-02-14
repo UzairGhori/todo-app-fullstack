@@ -8,7 +8,8 @@ from sqlmodel import SQLModel
 from app.config import FRONTEND_URL
 from app.dependencies.database import engine
 from app.models.user import User  # noqa: F401 - register model for create_all
-from app.routers import auth, health, tasks
+from app.models.conversation import Conversation, Message  # noqa: F401 - register models for create_all
+from app.routers import auth, chat, health, tasks
 
 
 @asynccontextmanager
@@ -46,5 +47,6 @@ async def global_exception_handler(request: Request, exc: Exception):
 
 
 app.include_router(auth.router)
+app.include_router(chat.router)
 app.include_router(health.router)
 app.include_router(tasks.router)

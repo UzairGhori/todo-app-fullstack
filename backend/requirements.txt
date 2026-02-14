@@ -5,3 +5,4 @@ PyJWT
 python-dotenv
 psycopg2-binary
 bcrypt
+openai-agents
