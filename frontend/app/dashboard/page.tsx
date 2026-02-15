@@ -79,8 +79,8 @@ export default function DashboardPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">My Tasks</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-[#F1F5F9]" style={{ letterSpacing: "-0.025em" }}>My Tasks</h1>
+          <p className="mt-1 text-sm text-[#64748B]">
             {tasks.length === 0
               ? "Get started by creating your first task"
               : `${tasks.length} task${tasks.length !== 1 ? "s" : ""} total`}
@@ -103,16 +103,16 @@ export default function DashboardPage() {
       {tasks.length > 0 && (
         <div className="grid grid-cols-3 gap-3">
           <div className="card-premium p-4 text-center">
-            <p className="text-2xl font-bold text-amber-500">{pendingCount}</p>
-            <p className="text-xs font-medium text-gray-500">Pending</p>
+            <p className="text-2xl font-bold text-[#fbbf24]">{pendingCount}</p>
+            <p className="text-xs font-medium text-[#64748B]">Pending</p>
           </div>
           <div className="card-premium p-4 text-center">
-            <p className="text-2xl font-bold text-blue-500">{inProgressCount}</p>
-            <p className="text-xs font-medium text-gray-500">In Progress</p>
+            <p className="text-2xl font-bold text-[#60a5fa]">{inProgressCount}</p>
+            <p className="text-xs font-medium text-[#64748B]">In Progress</p>
           </div>
           <div className="card-premium p-4 text-center">
-            <p className="text-2xl font-bold text-emerald-500">{completedCount}</p>
-            <p className="text-xs font-medium text-gray-500">Completed</p>
+            <p className="text-2xl font-bold text-[#4ade80]">{completedCount}</p>
+            <p className="text-xs font-medium text-[#64748B]">Completed</p>
           </div>
         </div>
       )}
@@ -133,13 +133,13 @@ export default function DashboardPage() {
       <div className="space-y-3">
         {tasks.length === 0 ? (
           <div className="card-premium p-12 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50">
-              <svg className="h-8 w-8 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F6C445]/10">
+              <svg className="h-8 w-8 text-[#F6C445]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
             </div>
-            <h3 className="mt-4 text-lg font-semibold text-gray-900">No tasks yet</h3>
-            <p className="mt-2 text-sm text-gray-500">
+            <h3 className="mt-4 text-lg font-semibold text-[#F1F5F9]">No tasks yet</h3>
+            <p className="mt-2 text-sm text-[#64748B]">
               Create your first task to start organizing your work.
             </p>
             {!showForm && (

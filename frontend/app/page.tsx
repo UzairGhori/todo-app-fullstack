@@ -16,7 +16,7 @@ export default function Home() {
   }, [router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f4f6fa]">
+    <div className="flex min-h-screen items-center justify-center bg-[#0A0E1A]">
       <div className="spinner" />
     </div>
   );

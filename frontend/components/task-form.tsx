@@ -82,20 +82,20 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
   return (
     <div className="card-premium animate-fade-in overflow-hidden">
       {/* Header */}
-      <div className="border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white px-6 py-4">
+      <div className="border-b border-white/[0.08] bg-[#1A2035] px-6 py-4">
         <div className="flex items-center gap-3">
-          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${isEditing ? "bg-amber-100" : "bg-indigo-100"}`}>
+          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${isEditing ? "bg-[#F6C445]/15" : "bg-[#F6C445]/15"}`}>
             {isEditing ? (
-              <svg className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="h-4 w-4 text-[#F6C445]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z" />
               </svg>
             ) : (
-              <svg className="h-4 w-4 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="h-4 w-4 text-[#F6C445]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
             )}
           </div>
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-lg font-bold text-[#F1F5F9]">
             {isEditing ? "Edit Task" : "Create New Task"}
           </h2>
         </div>
@@ -104,17 +104,17 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
       {/* Form Body */}
       <form onSubmit={handleSubmit} className="p-6">
         {error && (
-          <div className="mb-5 flex items-center gap-3 rounded-xl border border-red-100 bg-red-50 p-3">
-            <svg className="h-4 w-4 shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="mb-5 flex items-center gap-3 rounded-xl border border-red-500/20 bg-red-500/10 p-3">
+            <svg className="h-4 w-4 shrink-0 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
             </svg>
-            <p className="text-sm font-medium text-red-700">{error}</p>
+            <p className="text-sm font-medium text-red-400">{error}</p>
           </div>
         )}
 
         <div className="space-y-5">
           <div>
-            <label htmlFor="title" className="mb-2 block text-sm font-semibold text-gray-700">
+            <label htmlFor="title" className="mb-2 block text-sm font-semibold text-[#94A3B8]">
               Task Title <span className="text-red-400">*</span>
             </label>
             <input
@@ -130,7 +130,7 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
           </div>
 
           <div>
-            <label htmlFor="description" className="mb-2 block text-sm font-semibold text-gray-700">
+            <label htmlFor="description" className="mb-2 block text-sm font-semibold text-[#94A3B8]">
               Description
             </label>
             <textarea
@@ -146,7 +146,7 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label htmlFor="status" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label htmlFor="status" className="mb-2 block text-sm font-semibold text-[#94A3B8]">
                 Status
               </label>
               <select
@@ -162,7 +162,7 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
             </div>
 
             <div>
-              <label htmlFor="priority" className="mb-2 block text-sm font-semibold text-gray-700">
+              <label htmlFor="priority" className="mb-2 block text-sm font-semibold text-[#94A3B8]">
                 Priority
               </label>
               <select
@@ -183,7 +183,7 @@ export default function TaskForm({ task, onSuccess, onCancel }: TaskFormProps) {
           <button type="submit" disabled={loading} className="btn-primary text-sm">
             {loading ? (
               <span className="flex items-center gap-2">
-                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0A0E1A]/30 border-t-[#0A0E1A]" />
                 {isEditing ? "Updating..." : "Creating..."}
               </span>
             ) : isEditing ? (

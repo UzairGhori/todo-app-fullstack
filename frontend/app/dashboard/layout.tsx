@@ -26,7 +26,7 @@ export default function DashboardLayout({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-50">
+      <div className="flex min-h-screen items-center justify-center bg-[#0A0E1A]">
         <div className="spinner" />
       </div>
     );
@@ -47,23 +47,23 @@ export default function DashboardLayout({
     .slice(0, 2);
 
   return (
-    <div className="min-h-screen bg-[#f4f6fa]">
+    <div className="min-h-screen bg-[#0A0E1A]">
       {/* Premium Navigation */}
-      <nav className="glass-strong sticky top-0 z-50 border-b border-gray-200/60">
+      <nav className="glass-strong sticky top-0 z-50 border-b border-white/[0.08]">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">
-            <div className="bg-mesh flex h-9 w-9 items-center justify-center rounded-xl">
-              <svg className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F6C445]">
+              <svg className="h-5 w-5 text-[#0A0E1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
               </svg>
             </div>
-            <span className="text-lg font-bold text-gray-900">TaskFlow</span>
+            <span className="text-lg font-bold text-[#F1F5F9]">TaskFlow</span>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => router.push("/chat")}
-              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+              className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-[#94A3B8] transition-colors hover:bg-white/[0.04] hover:text-[#F1F5F9]"
             >
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
@@ -74,15 +74,15 @@ export default function DashboardLayout({
           <div className="relative">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-gray-100"
+              className="flex items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-white/[0.04]"
             >
-              <div className="bg-mesh flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F6C445] text-xs font-bold text-[#0A0E1A]">
                 {initials}
               </div>
-              <span className="hidden text-sm font-medium text-gray-700 sm:block">
+              <span className="hidden text-sm font-medium text-[#94A3B8] sm:block">
                 {user.name || user.email}
               </span>
-              <svg className="hidden h-4 w-4 text-gray-400 sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <svg className="hidden h-4 w-4 text-[#64748B] sm:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
               </svg>
             </button>
@@ -90,14 +90,14 @@ export default function DashboardLayout({
             {menuOpen && (
               <>
                 <div className="fixed inset-0 z-40" onClick={() => setMenuOpen(false)} />
-                <div className="animate-scale-in absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-xl border border-gray-200 bg-white p-2 shadow-lg">
-                  <div className="border-b border-gray-100 px-3 py-2">
-                    <p className="text-sm font-semibold text-gray-900">{user.name}</p>
-                    <p className="text-xs text-gray-500">{user.email}</p>
+                <div className="animate-scale-in absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-xl border border-white/[0.08] bg-[#1A2035] p-2 shadow-lg shadow-black/30">
+                  <div className="border-b border-white/[0.08] px-3 py-2">
+                    <p className="text-sm font-semibold text-[#F1F5F9]">{user.name}</p>
+                    <p className="text-xs text-[#64748B]">{user.email}</p>
                   </div>
                   <button
                     onClick={handleSignOut}
-                    className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-600 hover:bg-red-50"
+                    className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 hover:bg-red-500/10"
                   >
                     <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />

@@ -92,14 +92,14 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-[#f4f6fa]">
+    <div className="flex min-h-screen flex-col bg-[#0A0E1A]">
       {/* Header */}
-      <header className="glass-strong sticky top-0 z-50 border-b border-gray-200/60">
+      <header className="glass-strong sticky top-0 z-50 border-b border-white/[0.08]">
         <div className="mx-auto flex max-w-3xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <div className="bg-mesh flex h-9 w-9 items-center justify-center rounded-xl">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F6C445]">
               <svg
-                className="h-5 w-5 text-white"
+                className="h-5 w-5 text-[#0A0E1A]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -112,13 +112,13 @@ export default function ChatPage() {
                 />
               </svg>
             </div>
-            <span className="text-lg font-bold text-gray-900">
+            <span className="text-lg font-bold text-[#F1F5F9]">
               TaskFlow Chat
             </span>
           </div>
           <button
             onClick={() => router.push("/dashboard")}
-            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-100 hover:text-gray-900"
+            className="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-[#94A3B8] transition-colors hover:bg-white/[0.04] hover:text-[#F1F5F9]"
           >
             <svg
               className="h-4 w-4"
@@ -143,9 +143,9 @@ export default function ChatPage() {
         <div className="mx-auto max-w-3xl px-4 py-6">
           {messages.length === 0 && (
             <div className="animate-fade-in flex flex-col items-center justify-center py-20 text-center">
-              <div className="bg-mesh flex h-16 w-16 items-center justify-center rounded-2xl">
+              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#F6C445]">
                 <svg
-                  className="h-8 w-8 text-white"
+                  className="h-8 w-8 text-[#0A0E1A]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -158,10 +158,10 @@ export default function ChatPage() {
                   />
                 </svg>
               </div>
-              <h2 className="mt-4 text-xl font-bold text-gray-900">
+              <h2 className="mt-4 text-xl font-bold text-[#F1F5F9]" style={{ letterSpacing: "-0.025em" }}>
                 TaskFlow Assistant
               </h2>
-              <p className="mt-2 max-w-sm text-sm text-gray-500">
+              <p className="mt-2 max-w-sm text-sm text-[#64748B]">
                 I can help you manage your tasks. Try saying:
               </p>
               <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -176,7 +176,7 @@ export default function ChatPage() {
                       setInput(suggestion);
                       inputRef.current?.focus();
                     }}
-                    className="rounded-full border border-gray-200 bg-white px-4 py-2 text-sm text-gray-600 transition-colors hover:border-indigo-300 hover:bg-indigo-50 hover:text-indigo-700"
+                    className="rounded-full border border-white/[0.08] bg-[#1A2035] px-4 py-2 text-sm text-[#94A3B8] transition-colors hover:border-[#F6C445]/30 hover:bg-[#F6C445]/10 hover:text-[#F6C445]"
                   >
                     {suggestion}
                   </button>
@@ -196,8 +196,8 @@ export default function ChatPage() {
                 <div
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
                     msg.role === "user"
-                      ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white"
-                      : "border border-gray-200 bg-white text-gray-800"
+                      ? "bg-[#F6C445] text-[#0A0E1A]"
+                      : "border border-white/[0.08] bg-[#1A2035] text-[#F1F5F9]"
                   }`}
                 >
                   <p className="whitespace-pre-wrap text-sm leading-relaxed">
@@ -209,11 +209,11 @@ export default function ChatPage() {
 
             {isTyping && (
               <div className="flex justify-start">
-                <div className="rounded-2xl border border-gray-200 bg-white px-4 py-3">
+                <div className="rounded-2xl border border-white/[0.08] bg-[#1A2035] px-4 py-3">
                   <div className="flex items-center gap-1">
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:0ms]" />
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:150ms]" />
-                    <div className="h-2 w-2 animate-bounce rounded-full bg-gray-400 [animation-delay:300ms]" />
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-[#F6C445] [animation-delay:0ms]" />
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-[#F6C445] [animation-delay:150ms]" />
+                    <div className="h-2 w-2 animate-bounce rounded-full bg-[#F6C445] [animation-delay:300ms]" />
                   </div>
                 </div>
               </div>
@@ -225,7 +225,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <div className="glass-strong sticky bottom-0 border-t border-gray-200/60">
+      <div className="glass-strong sticky bottom-0 border-t border-white/[0.08]">
         <div className="mx-auto flex max-w-3xl items-center gap-3 px-4 py-4">
           <input
             ref={inputRef}

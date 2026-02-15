@@ -22,9 +22,9 @@ interface TaskCardProps {
 }
 
 const STATUS_CONFIG: Record<string, { label: string; class: string; dot: string }> = {
-  pending: { label: "Pending", class: "badge-pending", dot: "bg-amber-400" },
-  in_progress: { label: "In Progress", class: "badge-in-progress", dot: "bg-blue-500" },
-  completed: { label: "Completed", class: "badge-completed", dot: "bg-emerald-500" },
+  pending: { label: "Pending", class: "badge-pending", dot: "bg-[#fbbf24]" },
+  in_progress: { label: "In Progress", class: "badge-in-progress", dot: "bg-[#60a5fa]" },
+  completed: { label: "Completed", class: "badge-completed", dot: "bg-[#4ade80]" },
 };
 
 const PRIORITY_CONFIG: Record<string, { label: string; class: string }> = {
@@ -54,7 +54,7 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
   }
 
   return (
-    <div className={`card-premium animate-fade-in overflow-hidden p-5 ${isCompleted ? "opacity-75" : ""}`}>
+    <div className={`card-premium animate-fade-in overflow-hidden p-5 ${isCompleted ? "opacity-60" : ""}`}>
       <div className="flex items-start gap-4">
         {/* Toggle Checkbox */}
         <button
@@ -62,16 +62,16 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
           disabled={toggling}
           className={`group mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-200 ${
             isCompleted
-              ? "border-emerald-500 bg-emerald-500"
-              : "border-gray-300 hover:border-indigo-400 hover:bg-indigo-50"
+              ? "border-[#4ade80] bg-[#4ade80]"
+              : "border-[#64748B] hover:border-[#F6C445] hover:bg-[#F6C445]/10"
           }`}
         >
           {isCompleted ? (
-            <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <svg className="h-3.5 w-3.5 text-[#0A0E1A]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           ) : (
-            <svg className="h-3 w-3 text-transparent group-hover:text-indigo-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+            <svg className="h-3 w-3 text-transparent group-hover:text-[#F6C445]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           )}
@@ -81,11 +81,11 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className={`text-base font-semibold ${isCompleted ? "text-gray-400 line-through" : "text-gray-900"}`}>
+              <h3 className={`text-base font-semibold ${isCompleted ? "text-[#64748B] line-through" : "text-[#F1F5F9]"}`}>
                 {task.title}
               </h3>
               {task.description && (
-                <p className={`mt-1 line-clamp-2 text-sm leading-relaxed ${isCompleted ? "text-gray-400" : "text-gray-500"}`}>
+                <p className={`mt-1 line-clamp-2 text-sm leading-relaxed ${isCompleted ? "text-[#64748B]" : "text-[#94A3B8]"}`}>
                   {task.description}
                 </p>
               )}
@@ -95,7 +95,7 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
             <div className="flex shrink-0 items-center gap-1">
               <button
                 onClick={() => onEdit(task)}
-                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-indigo-50 hover:text-indigo-600"
+                className="rounded-lg p-2 text-[#64748B] transition-colors hover:bg-[#F6C445]/10 hover:text-[#F6C445]"
                 title="Edit task"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -104,7 +104,7 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
               </button>
               <button
                 onClick={() => onDelete(task)}
-                className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                className="rounded-lg p-2 text-[#64748B] transition-colors hover:bg-red-500/10 hover:text-red-400"
                 title="Delete task"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -123,7 +123,7 @@ export default function TaskCard({ task, onEdit, onDelete, onToggle }: TaskCardP
             <span className={`badge ${priority.class}`}>
               {priority.label}
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-[#64748B]">
               {new Date(task.created_at).toLocaleDateString("en-US", {
                 month: "short",
                 day: "numeric",
